@@ -1,5 +1,6 @@
 package com.if3b.pahlawanku;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,15 +18,17 @@ import java.util.ArrayList;
 
 public class AdapterCard extends RecyclerView.Adapter<AdapterCard.ClassViewHolder>{
     private ArrayList<ModelPahlawan> dataPahlawan;
+    private Context ctx;
 
-    public AdapterCard(ArrayList<ModelPahlawan> dataPahlawan) {
+    public AdapterCard(ArrayList<ModelPahlawan> dataPahlawan, Context ctx) {
         this.dataPahlawan = dataPahlawan;
+        this.ctx = ctx;
     }
 
     @NonNull
     @Override
     public ClassViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View varView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent, false);
+        View varView = LayoutInflater.from(ctx).inflate(R.layout.item_card, parent, false);
         return new ClassViewHolder(varView);
     }
 
@@ -35,7 +38,7 @@ public class AdapterCard extends RecyclerView.Adapter<AdapterCard.ClassViewHolde
     holder.tvNama.setText(pahlawan.getNama());
     holder.tvTentang.setText(pahlawan.getTentang());
     Glide
-            .with(holder.itemView.getContext())
+            .with(ctx)
             .load(pahlawan.getFoto())
             .centerCrop()
             .into(holder.ivFoto);
@@ -51,11 +54,11 @@ public class AdapterCard extends RecyclerView.Adapter<AdapterCard.ClassViewHolde
 
         //    Log.d("CEKNRICEK", xNama+ " | " + xTentang + " | " + xFoto);
 
-            Intent kirim = new Intent(holder.itemView.getContext(), DetailActivity.class);
+            Intent kirim = new Intent(ctx, DetailActivity.class);
              kirim.putExtra("xNama", xNama);
             kirim.putExtra("xTentang", xTentang);
             kirim.putExtra("xFoto", xFoto);
-            holder.itemView.getContext().startActivity(kirim);
+            ctx.startActivity(kirim);
         }
     });
     }
